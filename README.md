@@ -5,7 +5,7 @@ This library integrates the Bugsnag error reporting library into your CakePHP 2.
 ## Getting Started
 1. Register with [Bugsnag](https://bugsnag.com) and grab yourself an API key
 2. Install the [Bugsnag library](https://docs.bugsnag.com/platforms/php/other) using composer
-3. Setup your project with the BugsnagErrorHandler.php class and define new error handlers in
+3. Setup your project with the Bugsnag credentials and import statements in `bootstrap.php`, add the `BugsnagErrorHandler.php` class under `app/vendors`, and define new error handlers in and `core.php`
 
 ## Install the Bugsnag Library
 Install the Bugsnag library via Composer ([see official docs](https://docs.bugsnag.com/platforms/php/other/))
@@ -34,7 +34,7 @@ Edit `app/Config/bootstrap.php` to include the API key provided by Bugsnag and i
     App::import('Vendor', array('file' => 'autoload'));
     App::import('vendors', array('file' => 'BugsnagErrorHandler'));
 
-Edit `app/Config/core.php` in order to override the default CakePHP `Exception` and `Error` handler class.
+Edit `app/Config/core.php` to override the default CakePHP `Exception` and `Error` handler class. Make sure to remove the existing `Exception` and `Error` configure options and replace them with the two lines below.
 
     Configure::write('Exception', array(
         'handler' => 'BugsnagErrorHandler::handleException',
