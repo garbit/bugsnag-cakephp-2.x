@@ -27,27 +27,30 @@ After installing the Bugsnag library via composer you need to edit two files: `b
 
 Edit `app/Config/bootstrap.php` to include the API key provided by Bugsnag and include the `BugsnagErrorHandler.php` and `autoloader` via the `App::import()` function at the bottom of `bootstrap.php`.
 
-    // Enter your own Bugsnag API key in bootstrap.php
-    Configure::write('bugsnag_api_key', YOUR_BUGSNAG_API_KEY_HERE);
+```php
+// Enter your own Bugsnag API key in bootstrap.php
+Configure::write('bugsnag_api_key', YOUR_BUGSNAG_API_KEY_HERE);
 
-    // Add these two lines at the bottom of your bootstrap.php file
-    App::import('Vendor', array('file' => 'autoload'));
-    App::import('vendors', array('file' => 'BugsnagErrorHandler'));
+// Add these two lines at the bottom of your bootstrap.php file
+App::import('Vendor', array('file' => 'autoload'));
+App::import('vendors', array('file' => 'BugsnagErrorHandler'));
+```
 
 Edit `app/Config/core.php` to override the default CakePHP `Exception` and `Error` handler class. Make sure to remove the existing `Exception` and `Error` configure options and replace them with the two lines below.
 
-    Configure::write('Exception', array(
-        'handler' => 'BugsnagErrorHandler::handleException',
-	    'renderer' => 'ExceptionRenderer',
-	    'log' => true
-    ));
+```php
+Configure::write('Exception', array(
+    'handler' => 'BugsnagErrorHandler::handleException',
+    'renderer' => 'ExceptionRenderer',
+    'log' => true
+));
 
-    Configure::write('Error', array(
-        'handler' => 'BugsnagErrorHandler::handleError',
-        'level' => E_ALL & ~E_DEPRECATED,
-	    'trace' => true
-    ));
-
+Configure::write('Error', array(
+    'handler' => 'BugsnagErrorHandler::handleError',
+    'level' => E_ALL & ~E_DEPRECATED,
+    'trace' => true
+));
+```
 
 You should now begin seeing bug reports in the bugsnag console.
 
